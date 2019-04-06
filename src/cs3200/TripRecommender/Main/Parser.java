@@ -1,4 +1,4 @@
-package cs3200.TripRecommender;
+package cs3200.TripRecommender.Main;
 
 /**
  * Parser for user input for trip recommendations.

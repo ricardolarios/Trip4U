@@ -1,4 +1,4 @@
-package cs3200.TripRecommender;
+package cs3200.TripRecommender.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
  */
 public class TripRecommender {
 
-    public static Parser parser = new Parser();
+    private static Parser parser = new Parser();
 
     /**
      * Entry point for program.
