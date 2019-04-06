@@ -16,7 +16,7 @@ USE Trip4U ;
 DROP TABLE IF EXISTS Trip4U.destination ;
 
 CREATE TABLE IF NOT EXISTS Trip4U.destination (
-  destination_id INT NOT NULL,
+  destination_id INT NOT NULL AUTO_INCREMENT,
   city VARCHAR(45) NOT NULL,
   country VARCHAR(45) NOT NULL,
   PRIMARY KEY (destination_id));
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Trip4U.destination (
 DROP TABLE IF EXISTS Trip4U.user ;
 
 CREATE TABLE IF NOT EXISTS Trip4U.user (
-  user_id INT NOT NULL,
+  user_id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   age INT NOT NULL,
   location INT,
@@ -43,25 +43,9 @@ CREATE TABLE IF NOT EXISTS Trip4U.user (
 DROP TABLE IF EXISTS Trip4U.type ;
 
 CREATE TABLE IF NOT EXISTS Trip4U.type (
-  type_id INT NOT NULL,
+  type_id INT NOT NULL AUTO_INCREMENT,
   type_name VARCHAR(100) NOT NULL,
   PRIMARY KEY (type_id));
-
-
--- -----------------------------------------------------
--- Table Trip4U.preference
--- -----------------------------------------------------
-DROP TABLE IF EXISTS Trip4U.preference ;
-
-CREATE TABLE IF NOT EXISTS Trip4U.preference (
-  preference_id INT NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  type_id INT NOT NULL,
-  PRIMARY KEY (preference_id),
-  CONSTRAINT fk_interest1
-    FOREIGN KEY (type_id)
-    REFERENCES Trip4U.type (type_id));
-
 
 -- -----------------------------------------------------
 -- Table Trip4U.cost
@@ -69,7 +53,7 @@ CREATE TABLE IF NOT EXISTS Trip4U.preference (
 DROP TABLE IF EXISTS Trip4U.cost ;
 
 CREATE TABLE IF NOT EXISTS Trip4U.cost (
-  cost_id INT NOT NULL,
+  cost_id INT NOT NULL AUTO_INCREMENT,
   value INT NOT NULL,
   description VARCHAR(255) NOT NULL,
   PRIMARY KEY (cost_id));
@@ -81,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Trip4U.cost (
 DROP TABLE IF EXISTS Trip4U.attraction ;
 
 CREATE TABLE IF NOT EXISTS Trip4U.attraction (
-  attraction_id INT NOT NULL,
+  attraction_id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NULL,
   description VARCHAR(1000) NULL,
   destination_id INT NOT NULL,
@@ -154,7 +138,8 @@ CREATE TABLE IF NOT EXISTS Trip4U.user_has_preference (
     REFERENCES Trip4U.user (user_id),
   CONSTRAINT fk_user_has_interest2
     FOREIGN KEY (preference_id)
-    REFERENCES Trip4U.preference (preference_id));
+    REFERENCES Trip4U.type (type_id)),
+  CONSTRAINT level_Ck CHECK (level IN (1, 2, 3, 4, 5));
 
 
 
