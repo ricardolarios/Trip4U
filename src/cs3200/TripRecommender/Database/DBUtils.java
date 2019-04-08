@@ -1,7 +1,11 @@
-package edu.northeastern.database;
+package cs3200.TripRecommender.Database;
+
 
 import java.sql.*;
 
+/**
+ * Represent a set of utilities for operating with a MySQL Database Connection.
+ */
 public class DBUtils {
 
 
