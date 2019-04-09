@@ -1,4 +1,3 @@
-
 -- -----------------------------------------------------
 -- Schema Trip4U
 -- -----------------------------------------------------
@@ -110,6 +109,7 @@ DROP TABLE IF EXISTS Trip4U.reviews ;
 CREATE TABLE IF NOT EXISTS Trip4U.reviews (
   user_id INT NOT NULL,
   attraction_id INT NOT NULL,
+  rating INT(1) NOT NULL,
   comment VARCHAR(255) NULL,
   date DATE NULL,
   PRIMARY KEY (user_id, attraction_id),
@@ -120,7 +120,8 @@ CREATE TABLE IF NOT EXISTS Trip4U.reviews (
     REFERENCES Trip4U.user (user_id),
   CONSTRAINT fk_user_has_attraction2
     FOREIGN KEY (attraction_id)
-    REFERENCES Trip4U.attraction (attraction_id));
+    REFERENCES Trip4U.attraction (attraction_id),
+    CONSTRAINT rating_Ck CHECK (rating IN(1, 2, 3, 4, 5)));
 
 
 -- -----------------------------------------------------
@@ -138,19 +139,139 @@ CREATE TABLE IF NOT EXISTS Trip4U.user_has_preference (
     REFERENCES Trip4U.user (user_id),
   CONSTRAINT fk_user_has_interest2
     FOREIGN KEY (preference_id)
-    REFERENCES Trip4U.type (type_id)),
-  CONSTRAINT level_Ck CHECK (level IN (1, 2, 3, 4, 5));
+    REFERENCES Trip4U.type (type_id),
+  CONSTRAINT level_Ck CHECK (level IN(1, 2, 3, 4, 5)));
 
 
-
+-- ---------------------------------------------------------
+-- insert into destination statements
+-- ---------------------------------------------------------
+ insert into destination (city, country) values 
+  ('Rome', 'Italy'),
+  ('New York', 'USA'),
+  ('Boston', 'USA'),
+  ('San franciso', 'USA'),
+  ('Berlin', 'Germany'),
+  ('London', 'United Kingdom'),
+  ('Paris', 'France'),
+  ('Cairo', 'Egypt'),
+  ('Beijing', 'China'),
+  ('Tokyo', 'Japan');
 
 -- ------------------------------------------------------
 -- insert into user statements 
 -- ------------------------------------------------------
+insert into user (name, age, location) values
+('Rick Steves', 54, 1),
+('Uma Thurman', 48, 3),
+('Jaden Smith', 20, 10),
+('Betty White', 97, 8),
+('Stephen Kaufer', 55, 7),
+('Timothee Chalamet', 23, 6);
 
--- get all users and their information
-select * from user;
+-- ------------------------------------
+-- insert into type statements
+-- -------------------------------------
+insert into type (type_name) values
+('art'),
+('history'),
+('food'),
+('nature'),
+('science'),
+('music'),
+('sports');
 
--- select every unique name from type
-select distinct type_name from type;
+-- ---------------------------------------------------------
+-- insert into user_has_preference statements
+-- ---------------------------------------------------------
+insert into user_has_preference values
+(1, 1, 5),
+(1, 2, 4),
+(1, 6, 4),
+(2, 3, 5),
+(2, 7, 3),
+(3, 4, 5),
+(4, 1, 1),
+(4, 7, 5),
+(5, 6, 2),
+(5, 2, 2),
+(5, 7, 2),
+(5, 3, 3),
+(6, 1, 5),
+(6, 4, 5),
+(6, 6, 5);
 
+ -- ---------------------------------------------------------
+-- insert into attraction statements
+-- ---------------------------------------------------------
+INSERT into attraction values
+('Colloseum', 'an Acient roman fighting pit',1),
+('Roman Forum','an Acient forum',1),
+('Trevi Fountain','Iconic 18th-century sculpted fountain',1),
+('Statue of Liberty','American icon in New York Harbor',2),
+('Central Park','Urban Oasis', 2),
+('Empire State Building','103-story landmark',2),
+('Rockefeller Center','Midtown business complex',2),
+('Freedom Trail','Route with historic sites & museums',3),
+('Museum of Fine Arts, Boston','Impressionist art museum',3),
+('Boston Common','Venerable park with historic roots',3), 
+('Alcatraz Island','Notorious Island Prison', 4),
+('Golden Gate Bridge','Iconic art deco bridge',4),
+('Fishermans Wharf','Crab stands, souvenir shops & sea lions',4),
+('East Side Gallery','Section of Berlin Wall',5),
+('Brandenburg Gate','Classical Archway',5),
+('Reichstag Building','Histtoric glass-domed home of parliament',5),
+('Big Ben','Iconic clock tower',6),
+('Buckingham Palace','Home of British Queen',6),
+('London Eye','riverside observation wheel',6),
+('Eiffel Tower','19-century tower',7),
+('Louvre Museum','Landmark art museum',7),
+('Palace of Versailles','Louis XIVs gilded palace & gardens',7),
+('Giza Necropolis','Site of the Great Pyramids',8),
+('Egyptian Museum','5,000 years of Egyptian history',8),
+('Pyramid of Djoser','Pyramid built for pharaoh',8),
+('Great Wall of China','Historic Structure',9), 
+('The Palace Museum','Palace Complex',9), 
+('Temple of Heaven','historic temple complex',9), 
+('Tokyo Skytree','Huge Tower with observation deck',10), 
+('Senso-ji','Historic temple',10), 
+('Meiji Jingu','Famed Shinto Shrine',10);
+
+-- ---------------------------------------------------------
+-- insert into reviews statements
+-- ---------------------------------------------------------
+insert into reviews values
+(1, 1, 5, 'cool!', '2005-01-05'),
+(1, 3, 4 , 'toss a coin for good luck.', '2000-10-20'),
+(1, 5, 1, 'dirty and smelly', '2002-05-15'),
+(1, 6, 1, 'not for people scared of heights', '2008-06-16'),
+(2, 8, 5, 'fascinating walking history lesson', '2008-08-20'),
+(2, 10, 1, 'smelled like illicit substances', '2014-06-30'),
+(2, 12, 4, 'great views but very windy', '2013-12-23'),
+(2, 13, 5, 'seafood to die for', '2013-12-22'),
+(3, 16, 5, 'stunning architecture', '2015-11-09'),
+(3, 17, 2, 'under construction', '2012-09-23'),
+(3, 18, 5, 'go in the afternoon to see the changing of the guards!', '2017-05-20'),
+(3, 19, 4, 'overpriced but still a fun experience', '2018-03-12'),
+(3, 20, 5, 'go at sunset and bring a picnic', '2018-04-06'),
+(4, 21, 4, 'waited 4 hours to see the Mona Lisa, but worth it', '2019-02-14'),
+(4, 22, 5, 'the gardens were breathtaking', '2019-02-15'),
+(4, 23, 5, 'like stepping in a time machine', '2016-10-03'),
+(4, 24, 2, 'boring!', '2016-11-03'),
+(4, 25, 3, 'ugly', '2017-07-07'),
+(4, 26, 5, 'bring your walking shoes!', '2018-06-14'),
+(4, 27, 4, 'awesome but crowded', '2019-03-24'),
+(4, 28, 5, 'loved the dragon pillars!', '2019-04-01'),
+(4, 29, 5, 'views worth every penny', '2018-11-08'),
+(5, 30, 3, 'not much to do but take a picture and leave', '2018-09-15'),
+(5, 31, 3, 'located in the middle of a forest, be prepared!', '2018-03-21'),
+(6, 2, 2, 'all broken and decrepid', '2019-01-15'),
+(6, 4, 5, 'fascinating fixture of American history', '2019-02-23'),
+(6, 7, 1, 'down with capitalism!', '2017-10-14'),
+(6, 9, 5, 'fantastic collection for a low price', '2018-08-16'),
+(6, 11, 3, 'kinda depressing', '2019-03-26'),
+(6, 14, 4, 'sobering history lesson', '2018-07-15'),
+(6, 15, 5, 'iconic landmark', '2019-08-18');
+
+
+ 
