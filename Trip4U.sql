@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS Trip4U.attraction (
   name VARCHAR(255) NULL,
   description VARCHAR(1000) NULL,
   destination_id INT NOT NULL,
-  cost_id INT NOT NULL,
+  cost_id INT NULL,
   type_id INT NOT NULL,
   PRIMARY KEY (attraction_id),
   CONSTRAINT fk_attraction1
@@ -201,41 +201,63 @@ insert into user_has_preference values
 (6, 4, 5),
 (6, 6, 5);
 
+-- ---------------------------------------------------------
+-- insert into cost statements
+-- ---------------------------------------------------------
+
+insert into cost values
+(1, 1, "low"),
+(2, 2, "medium"),
+(3, 3, "high");
+
  -- ---------------------------------------------------------
 -- insert into attraction statements
 -- ---------------------------------------------------------
-INSERT into attraction values
-('Colloseum', 'an Acient roman fighting pit',1),
-('Roman Forum','an Acient forum',1),
-('Trevi Fountain','Iconic 18th-century sculpted fountain',1),
-('Statue of Liberty','American icon in New York Harbor',2),
-('Central Park','Urban Oasis', 2),
-('Empire State Building','103-story landmark',2),
-('Rockefeller Center','Midtown business complex',2),
-('Freedom Trail','Route with historic sites & museums',3),
-('Museum of Fine Arts, Boston','Impressionist art museum',3),
-('Boston Common','Venerable park with historic roots',3), 
-('Alcatraz Island','Notorious Island Prison', 4),
-('Golden Gate Bridge','Iconic art deco bridge',4),
-('Fishermans Wharf','Crab stands, souvenir shops & sea lions',4),
-('East Side Gallery','Section of Berlin Wall',5),
-('Brandenburg Gate','Classical Archway',5),
-('Reichstag Building','Histtoric glass-domed home of parliament',5),
-('Big Ben','Iconic clock tower',6),
-('Buckingham Palace','Home of British Queen',6),
-('London Eye','riverside observation wheel',6),
-('Eiffel Tower','19-century tower',7),
-('Louvre Museum','Landmark art museum',7),
-('Palace of Versailles','Louis XIVs gilded palace & gardens',7),
-('Giza Necropolis','Site of the Great Pyramids',8),
-('Egyptian Museum','5,000 years of Egyptian history',8),
-('Pyramid of Djoser','Pyramid built for pharaoh',8),
-('Great Wall of China','Historic Structure',9), 
-('The Palace Museum','Palace Complex',9), 
-('Temple of Heaven','historic temple complex',9), 
-('Tokyo Skytree','Huge Tower with observation deck',10), 
-('Senso-ji','Historic temple',10), 
-('Meiji Jingu','Famed Shinto Shrine',10);
+insert into type (type_name) values
+('art'),
+('history'),
+('food'),
+('nature'),
+('science'),
+('music'),
+('sports');
+
+INSERT into attraction  (name, description, destination_id, type_id) values
+('Colloseum', 'an Acient roman fighting pit',1, 7),
+('Roman Forum','an Acient forum',1, 2),
+('Oh Wow Gelato','I mean it tastes good.', 1, 3),
+('Apollo and Daphne','They are statues. Cool!', 1, 1),
+('Trevi Fountain','Iconic 18th-century sculpted fountain',1, 2),
+('Statue of Liberty','American icon in New York Harbor',2, 2),
+('Central Park','Urban Oasis', 2, 4),
+('Madison Square Garden','Jam out to your favorite band I guess.', 2, 6),
+('Empire State Building','103-story landmark',2, 2),
+('Rockefeller Center','Midtown business complex',2, 4),
+('Freedom Trail','Route with historic sites & museums',3, 2),
+('Chicken Lou\'s','Best Eatary on Campus', 3, 3),
+('Museum of Fine Arts, Boston','Impressionist art museum',3, 1),
+('Boston Common','Venerable park with historic roots',3, 4), 
+('Alcatraz Island','Notorious Island Prison', 4, 2),
+('Golden Gate Bridge','Iconic art deco bridge',4, 4),
+('Fishermans Wharf','Crab stands, souvenir shops & sea lions',4, 3),
+('East Side Gallery','Section of Berlin Wall',5, 2),
+('Brandenburg Gate','Classical Archway',5, 2),
+('Reichstag Building','Histtoric glass-domed home of parliament',5, 2),
+('Big Ben','Iconic clock tower',6, 4),
+('Buckingham Palace','Home of British Queen',6, 2),
+('London Eye','riverside observation wheel',6, 2),
+('Eiffel Tower','19-century tower',7, 4),
+('Louvre Museum','Landmark art museum',7, 1),
+('Palace of Versailles','Louis XIVs gilded palace & gardens',7, 2),
+('Giza Necropolis','Site of the Great Pyramids',8, 2),
+('Egyptian Museum','5,000 years of Egyptian history',8, 2),
+('Pyramid of Djoser','Pyramid built for pharaoh',8, 4),
+('Great Wall of China','Historic Structure',9, 2), 
+('The Palace Museum','Palace Complex',9, 1), 
+('Temple of Heaven','historic temple complex',9, 2), 
+('Tokyo Skytree','Huge Tower with observation deck',10, 4), 
+('Senso-ji','Historic temple',10, 2), 
+('Meiji Jingu','Famed Shinto Shrine',10, 2);
 
 -- ---------------------------------------------------------
 -- insert into reviews statements
@@ -274,4 +296,28 @@ insert into reviews values
 (6, 15, 5, 'iconic landmark', '2019-08-18');
 
 
+ select type_id 
+ from user 
+	join user_has_preference using (user_id)
+    join type on (preference_id = type_id)
+    where user_id = 1;
+    
+select name, description
+from attraction
+	join type using (type_id)
+    join user_has_preference using (type_id)
+	where destination_id = 1
+    and type_id in (select type_id 
+							from user 
+							join user_has_preference using (user_id)
+							join type on (preference_id = type_id)
+							where user_id = 1);
+                            
+ select *
+ from user 
+	join user_has_preference using (user_id)
+    join type on (preference_id = type_id)
+    join attraction using (type_id)
+    where user_id = 1 and destination_id = 1
+    order by level desc;
  

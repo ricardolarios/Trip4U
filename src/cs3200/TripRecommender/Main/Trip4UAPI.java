@@ -1,5 +1,8 @@
 package cs3200.TripRecommender.Main;
 
+import cs3200.TripRecommender.Data.User;
+import cs3200.TripRecommender.Data.Type;
+
 import java.util.List;
 
 public interface Trip4UAPI {
@@ -18,18 +21,13 @@ public interface Trip4UAPI {
    * @param pref The type that will be assigned to the user
    * @param level The level of preference for the given type
    */
-  void udpatePreference(User u, Type pref, Integer level);
+  void updatePreference(User u, Type pref, Integer level);
 
   /**
-   * Gets a list of types that a user can choose from to add to their preferences.
+   * Gets and displays a list of types that a user can choose from to add to their preferences.
    *
    * @return A list of all of the current preferences that are available to pick from.
    */
-  List<String> getAllTypes();
-
-  /**
-   *
-   */
-  List<...> getRecommendations(...);
+  List<Type> getAllTypes();
 
 }
