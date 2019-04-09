@@ -1,11 +1,13 @@
 package cs3200.TripRecommender.Main;
 
+import cs3200.TripRecommender.Data.Type;
 import cs3200.TripRecommender.Database.DBUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import java.sql.*;
+import java.util.List;
 
 /**
  * Entry point for trip recommendations.
@@ -13,8 +15,7 @@ import java.sql.*;
 public class TripRecommender {
 
     private static Parser parser = new Parser();
-    private static DBUtils utils = new DBUtils("jdbc:mysql://localhost:3306/Trip4U?serverTimezone=EST5EDT",
-            "User","Password");
+    private static Trip4UAPI connector = new Trip4UDatabaseMysql();
 
     /**
      * Entry point for program.
@@ -23,26 +24,16 @@ public class TripRecommender {
      */
     public static void main(String[] args) throws Exception {
 
-        String sql = "select * from destination";
-
-        try {
-            // get connection and initialize statement
-            Connection con = utils.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next() != false) {
-                System.out.println(rs.getInt("destination_id") + ", " +
-                        rs.getString("city") + ", " + rs.getString("country"));
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = null;
+
+        connector.authenticate("User", "Password");
+        List<Type> allTypes = connector.getAllTypes();
+
+        for (Type t : allTypes) {
+            System.out.println(t.getName());
+        }
+
 
         while(true) {
             input = reader.readLine();

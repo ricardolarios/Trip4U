@@ -213,14 +213,6 @@ insert into cost values
  -- ---------------------------------------------------------
 -- insert into attraction statements
 -- ---------------------------------------------------------
-insert into type (type_name) values
-('art'),
-('history'),
-('food'),
-('nature'),
-('science'),
-('music'),
-('sports');
 
 INSERT into attraction  (name, description, destination_id, type_id) values
 ('Colloseum', 'an Acient roman fighting pit',1, 7),
@@ -295,13 +287,14 @@ insert into reviews values
 (6, 14, 4, 'sobering history lesson', '2018-07-15'),
 (6, 15, 5, 'iconic landmark', '2019-08-18');
 
-
+/*
  select type_id 
  from user 
 	join user_has_preference using (user_id)
     join type on (preference_id = type_id)
     where user_id = 1;
-    
+  
+
 select name, description
 from attraction
 	join type using (type_id)
