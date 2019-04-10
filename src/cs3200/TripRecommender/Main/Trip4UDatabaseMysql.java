@@ -33,6 +33,8 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
             while(rs.next() != false) {
                 costMap.put(rs.getInt("cost_id"), rs.getString("description"));
             }
+            rs.close();
+            stmt.close();
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -58,6 +60,8 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
                 u.setId(rs.getInt("user_id"));
                 u.setName(rs.getString("name"));
             }
+            rs.close();
+            stmt.close();
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -81,13 +85,14 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
 
         String sql = "Insert into user_has_preference (user_id, preference_id, level) values"
                 + " (" + Integer.toString(u.getId()) +", " + Integer.toString(pref.getId())
-                + ", " + level.toString() + " on duplicate key update level = "
+                + ", " + level.toString() + ") on duplicate key update level = "
                 + level.toString();
         try {
             Connection con = dbu.getConnection();
             Statement stmt = con.createStatement();
-            stmt.executeQuery(sql);
+            stmt.executeUpdate(sql);
             System.out.println("Preference has been updated.");
+            stmt.close();
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());

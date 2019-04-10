@@ -7,10 +7,7 @@ import cs3200.TripRecommender.Data.User;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Entry point for trip recommendations.
@@ -188,7 +185,52 @@ public class TripRecommender {
             System.out.println("Well you need to give me something to edit!");
         }
         else {
-            // need to implement editing preferences here
+            switch (inputArray[1]) {
+                case "preferences":
+                    editPreferences(inputArray);
+                    break;
+                default:
+                    System.out.println("I'm not smart enough for that.");
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Edit the preferences of the current user.
+     * @param inputArray the information entered by the user
+     *
+     */
+    private static void editPreferences(String[] inputArray) {
+        if (inputArray.length >= 4) {
+            try {
+                connector.updatePreference(user, getTypeWithName(inputArray[2]),
+                        Integer.parseInt(inputArray[3]));
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Not a valid type");
+            }
+        }
+        else {
+            System.out.println("Improper formatting.");
+        }
+    }
+
+    /**
+     * Get the type with the provided name.
+     * @param name the name of the Type.
+     * @return the Type itself.
+     */
+    private static Type getTypeWithName(String name) {
+        List<Type> types = connector.getAllTypes();
+        Optional<Type> resultOptional =
+                types.stream().filter(t -> t.getName().equalsIgnoreCase(name)).findFirst();
+
+        if (resultOptional.isPresent()) {
+            return resultOptional.get();
+        }
+        else {
+            throw new IllegalArgumentException("Not a proper name");
         }
     }
 }
