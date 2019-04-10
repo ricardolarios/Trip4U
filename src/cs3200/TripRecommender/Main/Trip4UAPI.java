@@ -7,6 +7,7 @@ import cs3200.TripRecommender.Data.Type;
 import java.util.HashMap;
 import java.util.List;
 
+
 public interface Trip4UAPI {
 
   /**
