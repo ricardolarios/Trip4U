@@ -1,5 +1,7 @@
 package cs3200.TripRecommender.Data;
 
+import java.util.HashMap;
+
 /**
  * Represents an attraction in Trip4U database.
  */
@@ -106,5 +108,12 @@ public class Attraction {
      */
     public void setTypeID(int typeID) {
         this.typeID = typeID;
+    }
+
+
+    public String toString(HashMap<Integer, String> costMap) {
+        String costDesc = costMap.get(this.costID);
+        return "Name: " + this.name + "\nDescription: "
+                + this.description + "\nCost: " + costDesc;
     }
 }

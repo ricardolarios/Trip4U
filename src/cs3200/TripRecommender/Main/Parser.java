@@ -10,6 +10,7 @@ public class Parser {
      * @param input input from the user.
      */
     public void parse(String input) {
+
         System.out.println(input);
     }
 }

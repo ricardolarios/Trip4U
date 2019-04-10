@@ -4,9 +4,23 @@ import cs3200.TripRecommender.Data.Attraction;
 import cs3200.TripRecommender.Data.User;
 import cs3200.TripRecommender.Data.Type;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface Trip4UAPI {
+
+  /**
+   * Get the cost IDs and their descriptions.
+   * @return a map from ID to description.
+   */
+  public HashMap<Integer, String> getCostMap();
+
+  /**
+   * Get user data with the given name.
+   * @param name the name of the user.
+   * @return the user object.
+   */
+  public User getUser(String name);
 
   /**
    * Creates a new user with the given User object.
@@ -35,8 +49,9 @@ public interface Trip4UAPI {
    * Get a list of recommendations for the given user at the given location.
    * @param u the user.
    * @param location the location of the recommendations.
+   * @param max the maximum number of recommendations to output.
    */
-  public List<Attraction> getRecommendations(User u, String location);
+  public List<Attraction> getRecommendations(User u, String location, Integer max);
 
   /**
    * Set connection settings.
