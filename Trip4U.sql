@@ -215,7 +215,7 @@ insert into cost values
 -- ---------------------------------------------------------
 
 INSERT into attraction  (name, description, destination_id, type_id, cost_id) values
-('Colloseum', 'an Acient roman fighting pit',1, 7, 1),
+('Colloseum', 'an Ancient roman fighting pit',1, 7, 1),
 ('Roman Forum','An Ancient forum',1, 2, 1),
 ('Oh Wow Gelato','I mean it tastes good.', 1, 3, 1),
 ('Apollo and Daphne','They are statues. Cool!', 1, 1, 2),
