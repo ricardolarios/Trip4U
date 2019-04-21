@@ -45,7 +45,7 @@ public interface Trip4UAPI {
   * @param u the user making the review
   * @param a the attraction being reviewed
   * @param rating the user's rating of the attraction out of 5
-  * @param the user's comment about the attraction
+  * @param comment the user's comment about the attraction
   */
   public void addReview(User u, Attraction a, Integer rating, String comment);
 
