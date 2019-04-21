@@ -101,6 +101,25 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
     }
 
     @Override
+    public void addReview(User u, Attraction a, Integer rating, String comment) {
+
+        String sql = "Insert into reviews (user_id, attraction_id, rating, comment) values"
+                + " (" + Integer.toString(u.getId()) +", " + Integer.toString(a.getId())
+                + ", " + rating.toString() + ", " + comment + ")";
+        try {
+            Connection con = dbu.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(sql);
+            System.out.println("Review has been added.");
+            stmt.close();
+        }
+        catch (SQLException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<Type> getAllTypes() {
         List<Type> types = new ArrayList<Type>();
 
@@ -128,6 +147,33 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
     }
 
     @Override
+    public List<Attraction> getAllAttractions() {
+        List<Attraction> attractions = new ArrayList<Attraction>();
+
+        String sql = "Select * from attraction";
+
+        try {
+            Connection con = dbu.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next() != false) {
+                Attraction importAttraction = new Attraction();
+                importAttraction.setId(rs.getInt("attraction_id"));
+                importAttraction.setName(rs.getString("name"));
+                attraction.add(importAttraction);
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (SQLException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return attractions;
+    }
+
+    @Override
     public List<Attraction> getRecommendations(User u, String location, Integer max) {
         List<Attraction> attractions = new ArrayList<>();
 
@@ -138,7 +184,7 @@ public class Trip4UDatabaseMysql implements Trip4UAPI {
                 + " where (city like \'%" + location + "%\'"
                 + " or country like \'%" + location + "%\')"
                 + " and u.name = \'" + u.getName() +"\'"
-                + " order by level desc limit " + max.toString();
+                + " order by level, rating desc limit " + max.toString();
 
         try {
             Connection con = dbu.getConnection();
