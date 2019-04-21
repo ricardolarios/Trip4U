@@ -238,10 +238,6 @@ public class TripRecommender {
             catch (IllegalArgumentException e) {
                 System.out.println("Not a valid attraction");
             }
-        }
-        else {
-            System.out.println("Improper formatting.");
-        }
     }
 
 
