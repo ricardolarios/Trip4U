@@ -39,12 +39,29 @@ public interface Trip4UAPI {
    */
   public void updatePreference(User u, Type pref, Integer level);
 
+
+  /**
+  Adds a review to the database.
+  * @param u the user making the review
+  * @param a the attraction being reviewed
+  * @param rating the user's rating of the attraction out of 5
+  * @param the user's comment about the attraction
+  */
+  public void addReview(User u, Attraction a, Integer rating, String comment);
+
   /**
    * Gets and displays a list of types that a user can choose from to add to their preferences.
    *
    * @return A list of all of the current preferences that are available to pick from.
    */
   public List<Type> getAllTypes();
+
+  /**
+  * Gets and displays a list of attractions that a user can choose from to review.
+  *
+  * @return A list of all the current attractions currently present in the database.
+  */
+  public List<Attraction> getAllAttractions() {
 
   /**
    * Get a list of recommendations for the given user at the given location.
