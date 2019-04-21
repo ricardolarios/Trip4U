@@ -226,7 +226,7 @@ public class TripRecommender {
     }
 
     /**
-     * Insert a review inputed by the user into the database.
+     * Insert a review inputted by the user into the database.
      * @param inputArray the information entered by the user
      *
      */
@@ -235,8 +235,8 @@ public class TripRecommender {
             connector.addReview(user, getAttractionWithName(inputArray[0]),
                     Integer.parseInt(inputArray[1]), inputArray[2]);
             }
-            catch (IllegalArgumentException e) {
-                System.out.println("Not a valid attraction");
+        catch (IllegalArgumentException e) {
+            System.out.println("Not a valid attraction");
             }
     }
 
