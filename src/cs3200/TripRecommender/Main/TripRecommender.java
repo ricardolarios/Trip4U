@@ -79,6 +79,9 @@ public class TripRecommender {
                     case "edit":
                         editSomething(inputArray);
                         break;
+                    case "review":
+                        addReview(inputArray);
+                        break;
                     default:
                         System.out.println("I'm not smart enough for that.");
                         break;
@@ -168,6 +171,12 @@ public class TripRecommender {
                         System.out.println(t.getName());
                     }
                     break;
+                case "attractions":
+                    List<Attraction> attractions = connector.getAllAttractions();
+                    for (Attraction a : attractions) {
+                        System.out.println(a.getName());
+                    }
+                    break;
                 default:
                     System.out.println("idk");
                     break;
@@ -217,6 +226,27 @@ public class TripRecommender {
     }
 
     /**
+     * Insert a review inputed by the user into the database.
+     * @param inputArray the information entered by the user
+     *
+     */
+    private static void addReview(String[] inputArray) {
+        try {
+            connector.addReview(user, getAttractionWithName(inputArray[0]),
+                    Integer.parseInt(inputArray[1]), inputArray[2]);
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Not a valid attraction");
+            }
+        }
+        else {
+            System.out.println("Improper formatting.");
+        }
+    }
+
+
+
+    /**
      * Get the type with the provided name.
      * @param name the name of the Type.
      * @return the Type itself.
@@ -231,6 +261,24 @@ public class TripRecommender {
         }
         else {
             throw new IllegalArgumentException("Not a proper name");
+        }
+    }
+
+    /**
+     * Get the attraction with the provided name.
+     * @param name the name of the Attraction.
+     * @return the Attraction itself.
+     */
+    private static Attraction getAttractionWithName(String name) {
+        List<Attraction> attractions = connector.getAllAttractions();
+        Optional<Attraction> resultOptional =
+                attractions.stream().filter(a -> a.getName().equalsIgnoreCase(name)).findFirst();
+
+        if (resultOptional.isPresent()) {
+            return resultOptional.get();
+        }
+        else {
+            throw new IllegalArgumentException("Not a supported attraction");
         }
     }
 }
